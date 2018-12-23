@@ -1,0 +1,16 @@
+## Interface: 20100
+## Title: Fish Info 2
+## Notes: Where I catched that fish?
+## Notes-deDE: Wo habe ich welchen Fisch gefangen?
+## Notes-frFR: Où ai-je pris ce poisson?
+## OptionalDeps: myAddOns, fishinfo, Titan
+## Dependencies:
+## SavedVariables: FishInfo2DataSub
+## Author: Bastian Pflieger (wbb)
+## Version: testversion9a
+## X-Email: wb@illogical.de
+## X-Website: http://www.illogical.de
+## X-Date: 2007-06-10
+## X-Category: MYADDONS_CATEGORY_PROFESSIONS
+## X-Help: FISHINFO2_MYADDONS_XHELP
+FishInfo2.xml

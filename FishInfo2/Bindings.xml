@@ -1,0 +1,9 @@
+<Bindings>
+  <Binding name="TOGGLE_FISHINFO2" header="FISHINFO2">
+    if FishInfo2Frame:IsVisible() then
+      FishInfo2Frame:Hide();
+    else
+      FishInfo2Frame:Show();
+    end
+  </Binding>
+</Bindings>

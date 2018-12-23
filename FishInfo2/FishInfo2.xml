@@ -1,0 +1,460 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/..\FrameXML\UI.xsd">
+
+  <Script file="Localization.lua"/>
+  <Script file="FishInfo2.lua"/>
+
+  <!-- Fish info template -->
+  <Frame name="FishInfo2DataTemplate" virtual="true">
+    <Size>
+      <!-- <AbsDimension x="275" y="32"/> -->
+      <AbsDimension x="32" y="32"/>
+    </Size>
+    <Layers>
+      <Layer level="ARTWORK">
+        <Texture name="$parentIcon">
+          <Size>
+            <AbsDimension x="32" y="32"/>
+          </Size>
+          <Anchors>
+            <Anchor point="TOPLEFT"/>
+          </Anchors>
+        </Texture>
+        <FontString name="$parentName" inherits="GameFontNormal">
+          <Anchors>
+            <Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="$parentIcon">
+              <Offset>
+                <AbsDimension x="5" y="0"/>
+              </Offset>
+            </Anchor>
+          </Anchors>
+        </FontString>
+        <FontString name="$parentPercent" inherits="GameFontNormal">
+          <Color r="1.0" g="1.0" b="0.0"/>
+          <Anchors>
+            <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" relativeTo="$parentIcon">
+              <Offset>
+                <AbsDimension x="-2" y="2"/>
+              </Offset>
+            </Anchor>
+          </Anchors>
+        </FontString>
+        <FontString name="$parentCount" inherits="GameFontNormal">
+          <Color r="1.0" g="1.0" b="0.0"/>
+          <Anchors>
+            <Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" relativeTo="$parentIcon">
+              <Offset>
+                <AbsDimension x="-1" y="-2"/>
+              </Offset>
+            </Anchor>
+          </Anchors>
+        </FontString>
+        <FontString name="$parentZone" inherits="GameFontNormalSmall" justifyH="left">
+          <Size>
+            <AbsDimension x="250" y="10"/>
+          </Size>
+          <Anchors>
+            <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parentName">
+              <Offset>
+                <AbsDimension x="0" y="-5"/>
+              </Offset>
+            </Anchor>
+          </Anchors>
+        </FontString>
+      </Layer>
+    </Layers>
+    <Scripts>
+      <OnMouseUp>
+        if arg1 == "LeftButton" then
+          FishInfo2_IconClicked();
+        end
+      </OnMouseUp>
+      <OnEnter>
+        FishInfo2_UpdateGametooltip();
+      </OnEnter>
+      <OnLeave>
+        if GameTooltip:IsOwned(this) then
+          GameTooltip:Hide();
+        end
+      </OnLeave>
+    </Scripts>
+  </Frame>
+
+  <!-- Main Window -->
+  <Frame name="FishInfo2Frame" hidden="true" parent="UIParent" enableMouse="false" movable="true" frameStrata="HIGH">
+    <Size>
+      <AbsDimension x="355" y="415"/>
+    </Size>
+    <Anchors>
+      <Anchor point="CENTER"/>
+    </Anchors>
+
+    <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+      <BackgroundInsets>
+        <AbsInset left="11" right="12" top="12" bottom="11"/>
+      </BackgroundInsets>
+      <TileSize>
+        <AbsValue val="32"/>
+      </TileSize>
+      <EdgeSize>
+        <AbsValue val="32"/>
+      </EdgeSize>
+    </Backdrop>
+
+    <Layers>
+
+      <Layer level="BACKGROUND">
+        <Texture name="$parentBG">
+          <Color r="0.0" g="0.0" b="0.0" a="0.25"/>
+        </Texture>
+      </Layer>
+
+      <Layer level="ARTWORK">
+        <!-- Title -->
+        <Texture name="FishInfo2Header" file="Interface\DialogFrame\UI-DialogBox-Header">
+          <Size>
+            <AbsDimension x="256" y="64"/>
+          </Size>
+          <Anchors>
+            <Anchor point="TOP">
+              <Offset>
+                <AbsDimension x="0" y="12"/>
+              </Offset>
+            </Anchor>
+          </Anchors>
+        </Texture>
+        <FontString name="FishInfo2HeaderText" inherits="GameFontNormal">
+          <Anchors>
+            <Anchor point="TOP" relativeTo="FishInfo2Header">
+              <Offset>
+                <AbsDimension x="0" y="-14"/>
+              </Offset>
+            </Anchor>
+          </Anchors>
+        </FontString>
+        <!-- Error / Info text 1 -->
+        <FontString name="FishInfo2InfoText" inherits="GameFontNormal" justifyH="center">
+          <Size>
+            <AbsDimension x="330" y="20"/>
+          </Size>
+          <Anchors>
+            <Anchor point="CENTER" relativePoint="TOP">
+              <Offset>
+                <AbsDimension x="0" y="-125"/>
+              </Offset>
+            </Anchor>
+          </Anchors>
+        </FontString>
+        <!-- Error / Info text 2 -->
+        <FontString name="FishInfo2InfoText2" inherits="GameFontNormal" justifyH="center">
+          <Size>
+            <AbsDimension x="330" y="20"/>
+          </Size>
+          <Anchors>
+            <Anchor point="CENTER" relativePoint="TOP">
+              <Offset>
+                <AbsDimension x="0" y="-145"/>
+              </Offset>
+            </Anchor>
+          </Anchors>
+        </FontString>
+      </Layer>
+    </Layers>
+
+    <Frames>
+      <!-- Combo box for zones -->
+      <Frame name="FishInfo2ZoneFrame" inherits="UIDropDownMenuTemplate">
+        <Anchors>
+          <Anchor point="TOPLEFT">
+            <Offset>
+              <AbsDimension x="80" y="-30"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Layers>
+          <Layer level="BACKGROUND">
+            <FontString name="$parentLabel" inherits="GameFontNormal">
+              <Anchors>
+                <Anchor point="TOPRIGHT" relativePoint="TOPLEFT">
+                  <Offset>
+                    <AbsDimension x="10" y="-6"/>
+                  </Offset>
+                </Anchor>
+              </Anchors>
+            </FontString>
+          </Layer>
+        </Layers>
+        <Scripts>
+          <OnLoad>
+            FishInfo2ZoneFrameText:ClearAllPoints();
+            FishInfo2ZoneFrameText:SetPoint("LEFT", "FishInfo2ZoneFrame", "LEFT", 25, 3);
+            FishInfo2ZoneFrameText:SetJustifyH("LEFT");
+            FishInfo2ZoneFrameLabel:SetText(FISHINFO2_LOCATION);
+            UIDropDownMenu_SetWidth(102, FishInfo2ZoneFrame);
+            FishInfo2ZoneFrameText:SetWidth(87);
+          </OnLoad>
+        </Scripts>
+      </Frame>
+
+      <!-- Combo box for subZones -->
+      <Frame name="FishInfo2SubZoneFrame" inherits="UIDropDownMenuTemplate">
+        <Anchors>
+          <Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="FishInfo2ZoneFrame">
+            <Offset>
+              <AbsDimension x="-31" y="0"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Scripts>
+          <OnLoad>
+            FishInfo2SubZoneFrameText:ClearAllPoints();
+            FishInfo2SubZoneFrameText:SetPoint("LEFT", "FishInfo2SubZoneFrame", "LEFT", 25, 3);
+            FishInfo2SubZoneFrameText:SetJustifyH("LEFT");
+            UIDropDownMenu_SetWidth(102, FishInfo2SubZoneFrame);
+            FishInfo2SubZoneFrameText:SetWidth(87);
+          </OnLoad>
+        </Scripts>
+      </Frame>
+
+     <!-- Input box for fish name -->
+     <Frame name="FishInfo2EditBoxFrame" hidden="false" historyLines="5">
+       <Size>
+         <AbsDimension x="230" y="30"/>
+       </Size>
+       <Anchors>
+         <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="FishInfo2ZoneFrame">
+           <Offset>
+             <AbsDimension x="0" y="-5"/>
+           </Offset>
+         </Anchor>
+       </Anchors>
+       <Layers>
+         <Layer level="ARTWORK">
+            <FontString name="$parentLabel" inherits="GameFontNormal">
+              <Anchors>
+                <Anchor point="TOPRIGHT" relativePoint="TOPLEFT">
+                  <Offset>
+                    <AbsDimension x="10" y="0"/>
+                  </Offset>
+                </Anchor>
+              </Anchors>
+            </FontString>
+         </Layer>
+       </Layers>
+       <Frames>
+         <EditBox name="FishInfo2Edit" inherits="InputBoxTemplate" letters="50" historyLines="5" multiLine="false" autoFocus="false">
+           <Size>
+             <AbsDimension x="240" y="30"/>
+           </Size>
+           <Anchors>
+             <Anchor point="TOPLEFT" relativePoint="TOPLEFT">
+               <Offset>
+                 <AbsDimension x="24" y="9"/>
+               </Offset>
+             </Anchor>
+           </Anchors>
+           <Scripts>
+             <OnLoad>
+               FishInfo2EditBoxFrameLabel:SetText(FISHINFO2_NAME);
+             </OnLoad>
+             <OnEnterPressed>
+               FishInfo2_StartFishSearch();
+             </OnEnterPressed>
+           </Scripts>
+         </EditBox>
+       </Frames>
+     </Frame>
+
+      <!-- Checkbox whether to include databases from other characters -->
+      <CheckButton name="FishInfo2CheckOthers" inherits="OptionsCheckButtonTemplate">
+        <Anchors>
+          <Anchor point="TOPLEFT" relativePoint="TOPLEFT">
+            <Offset>
+              <AbsDimension x="20" y="-85"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Scripts>
+          <OnLoad>
+            FishInfo2CheckOthersText:SetText(FISHINFO2_INCLUDE_OTHERS);
+          </OnLoad>
+          <OnClick>
+            FishInfo2_SetIncludeOthers(this:GetChecked());
+            CloseDropDownMenus();
+            FishInfo2_UpdateGui();
+          </OnClick>
+        </Scripts>
+      </CheckButton>
+
+      <!-- Display fish info 1 -->
+      <Frame name="FishInfo1" inherits="FishInfo2DataTemplate" hidden="false">
+        <Anchors>
+          <Anchor point="TOPLEFT">
+            <Offset>
+              <AbsDimension x="20" y="-165"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+      </Frame>
+
+      <!-- Display fish info 2 -->
+      <Frame name="FishInfo2" inherits="FishInfo2DataTemplate" hidden="false">
+        <Anchors>
+          <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="FishInfo1">
+            <Offset>
+              <AbsDimension x="0" y="-10"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+      </Frame>
+
+      <!-- Display fish info 3 -->
+      <Frame name="FishInfo3" inherits="FishInfo2DataTemplate" hidden="false">
+        <Anchors>
+          <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="FishInfo2">
+            <Offset>
+              <AbsDimension x="0" y="-10"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+      </Frame>
+
+      <!-- Display fish info 4 -->
+      <Frame name="FishInfo4" inherits="FishInfo2DataTemplate" hidden="false">
+        <Anchors>
+          <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="FishInfo3">
+            <Offset>
+              <AbsDimension x="0" y="-10"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+      </Frame>
+
+      <!-- Display fish info 5 -->
+      <Frame name="FishInfo5" inherits="FishInfo2DataTemplate" hidden="false">
+        <Anchors>
+          <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="FishInfo4">
+            <Offset>
+              <AbsDimension x="0" y="-10"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+      </Frame>
+
+      <!-- Scrollbar -->
+      <ScrollFrame name="FishInfo2Scroll" inherits="FauxScrollFrameTemplate" hidden="false">
+        <Size>
+          <AbsDimension x="1" y="200"/>
+        </Size>
+        <Anchors>
+          <Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="FishInfo1">
+            <Offset>
+              <AbsDimension x="255" y="0"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Layers>
+          <Layer level="ARTWORK">
+            <Texture file="Interface\ClassTrainerFrame\UI-ClassTrainer-ScrollBar">
+              <Size>
+                <AbsDimension x="28" y="128"/>
+              </Size>
+              <Anchors>
+                <Anchor point="TOP" relativeTo="$parentScrollBarScrollUpButton">
+                  <Offset>
+                    <AbsDimension x="-1" y="3"/>
+                  </Offset>
+                </Anchor>
+              </Anchors>
+              <TexCoords left="0.03" right="0.46875" top="0.0" bottom="1.0"/>
+            </Texture>
+            <Texture file="Interface\ClassTrainerFrame\UI-ClassTrainer-ScrollBar">
+              <Size>
+                <AbsDimension x="28" y="128"/>
+              </Size>
+              <Anchors>
+                <Anchor point="BOTTOM" relativeTo="$parentScrollBarScrollDownButton">
+                  <Offset>
+                    <AbsDimension x="-1" y="-1"/>
+                  </Offset>
+                </Anchor>
+              </Anchors>
+              <TexCoords left="0.58" right="1.0" top="0.0" bottom="1.0"/>
+            </Texture>
+          </Layer>
+        </Layers>
+        <Scripts>
+          <OnVerticalScroll>
+            FauxScrollFrame_OnVerticalScroll(FISHINFO2_SCROLLHEIGHT, FishInfo2_UpdateResults);
+          </OnVerticalScroll>
+        </Scripts>
+      </ScrollFrame>
+
+      <!-- Close button -->
+      <Button name="FishInfo2CloseButton" inherits="OptionsButtonTemplate">
+        <Size>
+          <AbsDimension x="200" y="21"/>
+        </Size>
+        <Anchors>
+          <Anchor point="CENTER" relativePoint="BOTTOM" relativeTo="FishInfo2Frame">
+            <Offset>
+              <AbsDimension x="0" y="32"/>
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Scripts>
+          <OnLoad>
+            this:SetText(FISHINFO2_CLOSE);
+          </OnLoad>
+          <OnClick>
+            FishInfo2Frame:Hide();
+          </OnClick>
+        </Scripts>
+      </Button>
+
+    </Frames>
+
+    <Scripts>
+      <OnLoad>
+        FishInfo2_OnLoad();
+        FishInfo2HeaderText:SetText(FISHINFO2);
+        this:RegisterForDrag("LeftButton");
+      </OnLoad>
+      <OnEvent>
+        FishInfo2_OnEvent(event);
+      </OnEvent>
+      <OnShow>
+        FishInfo2_UpdateGui();
+      </OnShow>
+      <OnHide>
+        FishInfo2_OnHide();
+      </OnHide>
+      <OnDragStart>
+        this:StartMoving();
+      </OnDragStart>
+      <OnDragStop>
+        this:StopMovingOrSizing();
+      </OnDragStop>
+    </Scripts>
+
+  </Frame>
+
+  <Frame parent="UIParent" hide="true">
+    <Frames>
+      <Button name="TitanPanelFishInfo2Button" inherits="TitanPanelIconTemplate" frameStrata="FULLSCREEN" toplevel="true">
+        <Scripts>
+          <OnLoad>
+            if TitanPanelButton_OnLoad then
+              TitanPanelFishInfo2Button_OnLoad();
+              TitanPanelButton_OnLoad();
+            end
+          </OnLoad>
+          <OnClick>
+            TitanPanelFishInfo2Button_OnClick(arg1);
+            TitanPanelButton_OnClick(arg1);
+          </OnClick>
+        </Scripts>
+      </Button>
+    </Frames>
+  </Frame>
+
+</Ui>
