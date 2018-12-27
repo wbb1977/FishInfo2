@@ -1,11 +1,11 @@
-﻿
+﻿FISHINFO2_VERSION = "v10";
+
 if GetLocale() == "deDE" then
 
   --
   -- German
   --
   FISHINFO2 = "Fisch-Info 2";
-  FISHINFO2_VERSION = "testVersion9a";
   FISHINFO2_LOADED = " geladen.";
 
   -- MyAddons
@@ -65,7 +65,6 @@ elseif GetLocale() == "zhTW" then
   -- Traditional Chinese
   --
   FISHINFO2 = "Fish Info 2";
-  FISHINFO2_VERSION = "testVersion9a";
   FISHINFO2_LOADED = " 已經載入";
 
   -- MyAddons
@@ -132,7 +131,6 @@ elseif GetLocale() == "frFR" then
   -- ?= \195\187
 
   FISHINFO2 = "Fish Info 2";
-  FISHINFO2_VERSION = "testVersion9a";
   FISHINFO2_LOADED = " charg\195\169.";
 
   -- MyAddons
@@ -191,7 +189,6 @@ else
   -- English
   --
   FISHINFO2 = "Fish Info 2";
-  FISHINFO2_VERSION = "testVersion9a";
   FISHINFO2_LOADED = " loaded.";
 
   -- MyAddons

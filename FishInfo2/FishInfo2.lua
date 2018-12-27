@@ -1,14 +1,17 @@
 --
--- FishInfo2 (testversion9a)
+-- FishInfo2 (v10)
 -- based on Impp's Fishing Info 1.2
 --
--- by Bastian Pflieger <wbb@gmail.com>
+-- by Bastian Pflieger <wbb1977@gmail.com>
 --
--- Last update: June 10,, 2007
+-- Created: July 4, 2007
 --
--- supports "myAddOns 1.2 / 2.0": http://www.curse-gaming.com/mod.php?addid=358
--- supports "Titan Panel": http://www.curse-gaming.com/mod.php?addid=860
---
+-- supports "myAddOns" up to v2.6: https://wow.curseforge.com/projects/my-add-ons
+-- supports "Titan Panel" up to 2.20.0.11200: https://wow.curseforge.com/projects/titan-panel
+
+-- December 27, 2018:
+-- clean up for private server WoW Vanialla 1.12
+
 -- Changes since testversion8x:
 --   -updated toc file for 2.1
 --   - myaddons support moved to toc file
@@ -669,7 +672,7 @@ function FishInfo2_SetIncludeOthers(isIncludeOthers)
 end
 
 function FishInfo2_Message(msg)
-  ChatFrame1:AddMessage("|cffffff00FishInfo2: |cffffff9a" .. msg);
+  ChatFrame1:AddMessage(NORMAL_FONT_COLOR_CODE .. "FishInfo2: " .. LIGHTYELLOW_FONT_COLOR_CODE.. msg);
 end
 
 function FishInfo2_OnHide()
