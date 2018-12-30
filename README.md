@@ -5,7 +5,7 @@ Vanialla World of Warcraft Fishing Addon
 For every zone, it stores what fishes you catched there. It is basically a remake of 'Impp's Fishing Info'.
 
 # How to access it
-* Enter /fi2 or /fishinfo2 command in the chat.
+* Enter <code>/fi2</code> or <code>/fishinfo2</code> command in the chat.
 * Assign a key to toggle display
 * Via Titan Panel, enable the Fish Info 2 button. If you click the button it will show all fishes you catched in the current subzone. Click again to hide the window. 
 
