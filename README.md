@@ -20,7 +20,7 @@ It has two modes:
 * Select a zone and a subzone from the dropdown lists labeled with (Sub)Zone. It contains all zones/subzones where you were gone fishing. The script list then all fishes you caught in that subzone. The list is sorted by fish name.
 * Enter a fish name in the editbox labeled with Name and press <kbd>Enter</kbd>. The script list then all zones in which you caught that fish. The list is sorted by zone name. Prefix a fish name with % to sort the result list by percentage. 
 
-Hint: leave blank and press <kbd>Enter<k/bd> to list all fish. Just write a % and press <kbd>Enter</kbd> so see all fish sorted by percentage.
+Hint: leave blank and press <kbd>Enter</kbd> to list all fish. Just write a % and press <kbd>Enter</kbd> so see all fish sorted by percentage.
 
 The icons in the result list have two number overlays:
 * top right: how often you caught the fish in this subzone.
